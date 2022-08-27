@@ -26,9 +26,9 @@ class Missions:
     def __init__(self):
         self.inforobot=[0,0,0,0,0,0,0,0,0,0,0,0]
         self.missions = [[[584,176],[11412,10106]],[[355,175],[10212,10078]],[[528,405],[11206,10717]]]
-    def change_mission(self):
+    def change_mission(self,index):
         self.inforobot[0]=1
-        mymission = random.choice(self.missions)
+        mymission = self.missions[index]
         #Goal Robot x,y
         self.inforobot[1] = mymission[1][0]
         self.inforobot[2] = mymission[1][1]
@@ -38,7 +38,7 @@ class Missions:
 
 
 class Button:
-    def __init__(self, text,  pos, font):
+    def __init__(self, text,  pos, font,index):
         self.x, self.y = pos
         self.size=(120,50)
         self.rect = pygame.Rect(self.x, self.y, self.size[0], self.size[1])
@@ -46,6 +46,7 @@ class Button:
         self.font = pygame.font.SysFont("Arial", font)
         self.color = 'black'
         self.oldcolor='black'
+        self.index=index
         self.mymission=Missions()
     def show(self):
         self.surface = pygame.Surface(self.size)
@@ -63,7 +64,7 @@ class Button:
             if pygame.mouse.get_pressed()[0]:
                 if self.rect.collidepoint(x, y):
                     self.show()
-                    self.mymission.change_mission()
+                    self.mymission.change_mission(self.index)
                     self.send_info()
     def send_info(self):
         if not c.is_open():
@@ -125,16 +126,19 @@ def mainloop():
 button1 = Button(
     "Mision 1",
     (screen_x/2-50, 100),
-    font=30)
+    font=30,
+    index=0)
  
 button2 = Button(
     "Mision 2",
     (screen_x/2-50, 200),
-    font=30)
+    font=30,
+    index=1)
  
 button3 = Button(
     "Mision 3",
     (screen_x/2-50, 300),
-    font=30)
+    font=30,
+    index= 2)
  
 mainloop()
