@@ -35,28 +35,28 @@ while True:
     # changes to lighter shade
     pygame.draw.rect(screen,color_light,[width/2-82,height/6-1,160,50])
     if 412+84 <= mouse[0] <= 412+150+84 and 3*height/4-20 <= mouse[1] <= 3*height/4-20+40:
-        pygame.draw.rect(screen,color_light,[412+84-4,3*height/4-24,158,48])
-        pygame.draw.rect(screen,(255,0,0),[412+84,3*height/4-20,150,40])
+        pygame.draw.rect(screen,color_dark,[412+84-4,3*height/4-24,158,48])
+        pygame.draw.rect(screen,(255,71,71),[412+84,3*height/4-20,150,40])
           
     else:
         pygame.draw.rect(screen,color_dark,[412+84-4,3*height/4-24,158,48])
         pygame.draw.rect(screen,(255,0,0),[412+84,3*height/4-20,150,40])
         
     if 412-37-150+84 <= mouse[0] <= 412-37-150+150+84 and 3*height/4-20 <= mouse[1] <= 3*height/4-20+40:
-        pygame.draw.rect(screen,(0,66,255),[412-37-150+84-4,3*height/4-24,158,48])
-        pygame.draw.rect(screen,color_light,[412-37-150+84,3*height/4-20,150,40])
+        pygame.draw.rect(screen,color_dark,[412-37-150+84-4,3*height/4-24,158,48])
+        pygame.draw.rect(screen,(109,255,102),[412-37-150+84,3*height/4-20,150,40])
           
     else:
-        pygame.draw.rect(screen,(0,66,255),[412-37-150+84-4,3*height/4-24,158,48])
-        pygame.draw.rect(screen,color_dark,[412-37-150+84,3*height/4-20,150,40])
+        pygame.draw.rect(screen,color_dark,[412-37-150+84-4,3*height/4-24,158,48])
+        pygame.draw.rect(screen,(12,255,0),[412-37-150+84,3*height/4-20,150,40])
         
     if 412-37-150-37-150+84 <= mouse[0] <= 412-37+84-150-37-150+150 and 3*height/4-20 <= mouse[1] <= 3*height/4-20+40:
-        pygame.draw.rect(screen,(0,66,255),[412-37-150-37-150+84-4,3*height/4-24,158,48])
-        pygame.draw.rect(screen,color_light,[412-37-150-37-150+84,3*height/4-20,150,40])
+        pygame.draw.rect(screen,color_dark,[412-37-150-37-150+84-4,3*height/4-24,158,48])
+        pygame.draw.rect(screen,(89,132,255),[412-37-150-37-150+84,3*height/4-20,150,40])
           
     else:
-        pygame.draw.rect(screen,(0,66,255),[412-37-150-37-150+84-4,3*height/4-24,158,48])
-        pygame.draw.rect(screen,(89,132,255),[412-37-150-37-150+84,3*height/4-20,150,40])
+        pygame.draw.rect(screen,color_dark,[412-37-150-37-150+84-4,3*height/4-24,158,48])
+        pygame.draw.rect(screen,(0,66,255),[412-37-150-37-150+84,3*height/4-20,150,40])
         
 #    if 412-37-150-37-150+84 <= mouse[0] <= 412-37+84-150-37-150+150 and 3*height/4-20+100 <= mouse[1] <= 3*height/4-20+40:
  #       pygame.draw.rect(screen,color_light,[412-37-150-37-150+84,3*height/4-20,150,40])
