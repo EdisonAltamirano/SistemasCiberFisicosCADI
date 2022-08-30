@@ -92,7 +92,7 @@ class Button:
             c.write_multiple_registers(0,[self.mymission.inforobot[0],self.mymission.inforobot[1],self.mymission.inforobot[2]])
             print("Si")
             time.sleep(1)
-SERVER_HOST = "10.22.216.59"
+SERVER_HOST = "192.168.31.2"
 SERVER_PORT = 12345
 c = ModbusClient()
 c.host(SERVER_HOST)
