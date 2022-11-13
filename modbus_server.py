@@ -4,8 +4,7 @@ from pyModbusTCP.server import ModbusServer, DataBank
 from time import sleep
 from random import uniform
 # Create an instance of ModbusServer
-server = ModbusServer("10.22.214.138", 12345, no_block=True)
-
+server = ModbusServer("10.22.240.51", 12345, no_block=True)
 try:
     print("Start server...")
     server.start()
