@@ -9,7 +9,7 @@ screen_y = 400
 screen = pygame.display.set_mode((screen_x, screen_y))
 clock = pygame.time.Clock()
 font = pygame.font.SysFont("Arial", 20)
-myhost = "10.22.214.138"
+myhost = "10.22.233.34"
 myport = 12345
 c = ModbusClient(host=myhost,port=myport)
 class Missions:
@@ -26,8 +26,8 @@ class Missions:
     #11: Locationxpi robot
     #12: Locationypi robot
     def __init__(self):
-        self.inforobot=[0,0,0,0,0,0,0,0,0,0,0,0]
-        self.missions = [[[584,176],[11412,10106]],[[355,175],[10212,10078]],[[528,405],[11206,10717]]]
+        self.inforobot=[0,0,0,0,0,0,0,0,0,0,0,0,0]
+        self.missions = [[[584,176],[11412,10106]],[[355,175],[10212,10078]],[[528,105],[11206,10717]]]
     def change_mission(self,index):
         self.inforobot[0]=1
         mymission = self.missions[index]
@@ -76,26 +76,50 @@ class Button:
             self.mymission.inforobot[4] = bits[4]
             self.mymission.inforobot[5] = bits[5] 
             print(bits)
-            #Map coordinate location to pi
-            theta = np.radians(13)
-            offsetx=7.9115512
-            offsety=2.50132282
-            rheight=11.29203556
-            rwidth=17.69995916
-            c1, s = np.cos(theta), np.sin(theta)
-            R = np.array(((c1, -s), (s, c1)))
-            #Convert bit +-
-            self.mymission.inforobot[10]=int(mapping(bits[6]+offsetx,screen_x,rwidth))
-            self.mymission.inforobot[11]=int(mapping(bits[7]+offsety,screen_y,rheight))
             #Update registers self.mymissionStatus,Goalx,Goaly
             c.write_multiple_registers(0,[self.mymission.inforobot[0],self.mymission.inforobot[1],self.mymission.inforobot[2]])
             print("Si")
             time.sleep(1)
+            c.write_multiple_registers(8,[self.mymission.inforobot[8],self.mymission.inforobot[9]])
         else:
             print("unable to connect to "+myhost+":"+str(myport))
 
 def mapping(x,game,ros):
     return (x*game)/ros
+def map_conversion():
+    if c.open():
+        #Read Battery / RobotStatus /Distance (Modbus)
+        bits = c.read_holding_registers(0, 12)
+        print(bits)
+        #Map coordinate location to pi
+        theta = np.radians(13)
+        offsetx=7.9115512
+        offsety=2.50132282
+        rheight=11.29203556
+        rwidth=17.69995916
+        c1, s = np.cos(theta), np.sin(theta)
+        R = np.array(((c1, -s), (s, c1)))
+        #Convert bit +-
+        #Transform modbus coordinate 10->Positive; 11->Negative
+        firstx=int(bits[6]/1000)
+        firsty=int(bits[7]/1000)
+        if firstx==10:
+            firstx=(bits[6]-firstx*1000)
+        else:
+            firstx=-(bits[6]-firstx*1000)
+
+        if firsty==10:
+            firsty=(bits[7]-firsty*1000)
+        else:
+            firsty=-(bits[7]-firsty*1000)
+        goalx = firstx/100.0  #Goalx
+        goaly = firsty/100.0  #Goaly
+        localx=int(mapping(goalx+offsetx,screen_x,rwidth))
+        localy=int(mapping(goaly+offsety,screen_y,rheight))
+        c.write_multiple_registers(10,[localx,localy])
+    else:
+        print("unable to connect to "+myhost+":"+str(myport))
+
 def mainloop():
     pygame.display.set_caption('SmartFactory Demo')
     Icon = pygame.image.load('LogoSF.jpg')
@@ -114,8 +138,9 @@ def mainloop():
             button1.click(event)
             button2.click(event)
             button3.click(event)
+        
+        map_conversion()
 
-            #c.write_multiple_registers(8,[mission.inforobot[8],mission.inforobot[9],mission.inforobot[10],mission.inforobot[11]])
         clock.tick(30)
         pygame.display.update()
  
