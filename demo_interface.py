@@ -5,7 +5,7 @@ import numpy as np
 import time
 pygame.init()
 screen_x= 500
-screen_y = 600
+screen_y = 700
 screen = pygame.display.set_mode((screen_x, screen_y))
 clock = pygame.time.Clock()
 font = pygame.font.SysFont("Arial", 20)
@@ -84,12 +84,12 @@ class Missions:
         self.smart_missions = [[[584,176],[10754,10502, 8]],[[584,176],[10385,10360, 8]],[[584,176],[10342,10208, 0]],[[584,176],[10466,10595, 105]],[[584,176],[11071,11138, 100]]]
         self.come_back_coord = [[355,175],[10212,10078,60]]
         self.come_back_mission = [10,11,12]
-        self.activate_plc = [11,22,33]
+        self.activate_plc = [5,22,33]
     def change_mission(self,index):
         if index in self.activate_plc:
             #Send PLC command
-            self.inforobot[0]=2
-            self.inforobot[13]=index
+            self.inforobot[0]=4
+            self.inforobot[13]=1
         else:
             self.inforobot[0]=1
             mymission = self.smart_missions[index]
@@ -109,15 +109,15 @@ class Button:
         self.rect = pygame.Rect(self.x, self.y, self.size[0], self.size[1])
         self.title = text
         self.font = pygame.font.SysFont("Arial", font)
-        self.color = 'black'
-        self.oldcolor='black'
+        self.color = 'blue'
+        self.oldcolor='blue'
         self.index=index
         self.mymission=Missions()
     def show(self):
         self.surface = pygame.Surface(self.size)
         self.text = self.font.render(self.title, 1, pygame.Color("White"))
         while self.oldcolor == self.color:
-            self.color = random.choice(['black','blue','green','orange','red'])
+            self.color = random.choice(['yellow','blue','green','orange','red'])
         self.surface.fill(self.color)
         self.oldcolor = self.color
         self.surface.blit(self.text, (0, 0))
@@ -194,6 +194,7 @@ def mainloop():
     button3.show()
     button4.show()
     button5.show()
+    button6.show()
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -203,7 +204,7 @@ def mainloop():
             button3.click(event)
             button4.click(event)
             button5.click(event)
-        
+            button6.click(event)
         map_conversion()
 
         clock.tick(30)
@@ -236,4 +237,9 @@ button5 = Button(
     (screen_x/2-100, 500),
     font=30,
     index= 4)
+button6 = Button(
+    "Pick",
+    (screen_x/2-100, 600),
+    font=30,
+    index= 5)
 mainloop()
