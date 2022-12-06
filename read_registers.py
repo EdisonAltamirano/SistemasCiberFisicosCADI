@@ -8,7 +8,7 @@ c = ModbusClient(host=myhost,port=myport)
 class Missions:
     def read_info(self):
         if c.open():
-            bits = c.read_holding_registers(0, 25)
+            bits = c.read_holding_registers(0, 37)
             print(bits)
             time.sleep(1)
         else:
